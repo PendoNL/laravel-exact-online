@@ -11,5 +11,15 @@
             "email": "info@pendo.nl"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "PendoNL\\LaravelExactOnline\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PendoNL\\LaravelExactOnline\\Test\\": "tests"
+        }
+    },
     "minimum-stability": "dev"
 }
