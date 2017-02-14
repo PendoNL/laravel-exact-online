@@ -1,5 +1,5 @@
 {
-    "name": "pendo/laravel-exact-online",
+    "name": "pendonl/laravel-exact-online",
     "description": "Laravel Facade wrapper for Exact Online PHP API",
     "require": {
         "picqer/exact-php-client": "^3.1"
