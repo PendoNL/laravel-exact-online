@@ -2,8 +2,8 @@
 
 namespace PendoNL\LaravelExactOnline\Providers;
 
-use File;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
 
 class LaravelExactOnlineServiceProvider extends ServiceProvider
@@ -36,34 +36,31 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
         $this->app->alias(LaravelExactOnline::class, 'laravel-exact-online');
 
         $this->app->singleton('Exact\Connection', function() {
-            $config = json_decode(
-                File::get(
-                    $file = storage_path('exact.api.json')
-                ),
-                true
-            );
+
+            $user = Auth::user();
 
             $connection = new \Picqer\Financials\Exact\Connection();
             $connection->setRedirectUrl(route('exact.callback'));
             $connection->setExactClientId(config('laravel-exact-online.exact_client_id'));
             $connection->setExactClientSecret(config('laravel-exact-online.exact_client_secret'));
+            $connection->setBaseUrl('https://start.exactonline.' . config('laravel-exact-online.exact_country_code'));
 
-            if(isset($config['authorisationCode'])) {
-                $connection->setAuthorizationCode($config['authorisationCode']);
+            if(isset($user->exact_authorisationCode)) {
+                $connection->setAuthorizationCode($user->exact_authorisationCode);
             }
-            if(isset($config['accessToken'])) {
-                $connection->setAccessToken(unserialize($config['accessToken']));
+            if(isset($user->exact_accessToken)) {
+                $connection->setAccessToken(unserialize($user->exact_accessToken));
             }
-            if(isset($config['refreshToken'])) {
-                $connection->setRefreshToken($config['refreshToken']);
+            if(isset($user->exact_refreshToken)) {
+                $connection->setRefreshToken($user->rexact_efreshToken);
             }
-            if(isset($config['tokenExpires'])) {
-                $connection->setTokenExpires($config['tokenExpires']);
+            if(isset($user->exact_tokenExpires)) {
+                $connection->setTokenExpires($user->exact_tokenExpires);
             }
 
             try {
 
-                if(isset($config['authorisationCode'])) {
+                if(isset($user->exact_authorisationCode)) {
                     $connection->connect();
                 }
 
@@ -72,11 +69,11 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
-            $config['accessToken'] = serialize($connection->getAccessToken());
-            $config['refreshToken'] = $connection->getRefreshToken();
-            $config['tokenExpires'] = $connection->getTokenExpires();
+            $user->exact_accessToken = serialize($connection->getAccessToken());
+            $user->exact_refreshToken = $connection->getRefreshToken();
+            $user->exact_tokenExpires = $connection->getTokenExpires();
 
-            File::put($file, json_encode($config));
+            $user->save();
 
             return $connection;
         });
