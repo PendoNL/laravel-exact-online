@@ -52,7 +52,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 $connection->setAccessToken(unserialize($user->exact_accessToken));
             }
             if(isset($user->exact_refreshToken)) {
-                $connection->setRefreshToken($user->rexact_efreshToken);
+                $connection->setRefreshToken($user->exact_refreshToken);
             }
             if(isset($user->exact_tokenExpires)) {
                 $connection->setTokenExpires($user->exact_tokenExpires);
