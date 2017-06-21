@@ -29,9 +29,9 @@ class LaravelExactOnlineController extends Controller
      * Saves the authorisation and refresh tokens
      */
     public function appCallback() {
-        $user = Auth::user();
-        $user->exact_authorisationCode = request()->get('code');
-        $user->save();
+        $config = LaravelExactOnline::loadConfig();
+        $config->exact_authorisationCode = request()->get('code');
+        LaravelExactOnline::storeConfig($config);
 
         $connection = app()->make('Exact\Connection');
 

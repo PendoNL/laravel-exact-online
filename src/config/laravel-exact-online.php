@@ -15,6 +15,10 @@ return [
     /**
      * The Client country code
      */
-     'exact_country_code' => env('EXACT_COUNTRY_CODE', 'nl')
+     'exact_country_code' => env('EXACT_COUNTRY_CODE', 'nl'),
 
+    /**
+     * The Client country code
+     */
+     'exact_multi_user' => env('EXACT_MULTI_USER', false),
 ];
