@@ -42,6 +42,8 @@ Followed by this, publish the resources (views, config, etc.)
 php artisan vendor:publish --provider="PendoNL\LaravelExactOnline\Providers\LaravelExactOnlineServiceProvider"
 ```
 
+While developing this package, you might want to use the `--force` flag on this command to overwrite previous files.
+
 And last but not least either edit config/laravel-exact-online to match your Exact Online app settings
 or add these keys to your .env:
 
