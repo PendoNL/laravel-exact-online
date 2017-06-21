@@ -3,7 +3,7 @@
 namespace PendoNL\LaravelExactOnline;
 
 use File;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class LaravelExactOnline
 {
