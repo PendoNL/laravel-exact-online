@@ -2,8 +2,8 @@
 
 namespace PendoNL\LaravelExactOnline\Http\Controllers;
 
-use File;
 use App\Http\Controllers\Controller;
+use PendoNL\LaravelExactOnline\LaravelExactOnline;
 
 class LaravelExactOnlineController extends Controller
 {
@@ -29,16 +29,9 @@ class LaravelExactOnlineController extends Controller
      * Saves the authorisation and refresh tokens
      */
     public function appCallback() {
-        $config = json_decode(
-            File::get(
-                $file = storage_path('exact.api.json')
-            ),
-            true
-        );
-
-        $config['authorisationCode'] = request()->get('code');
-
-        File::put($file, json_encode($config));
+        $config = LaravelExactOnline::loadConfig();
+        $config->exact_authorisationCode = request()->get('code');
+        LaravelExactOnline::storeConfig($config);
 
         $connection = app()->make('Exact\Connection');
 
