@@ -3,7 +3,6 @@
 namespace PendoNL\LaravelExactOnline\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
 
 class LaravelExactOnlineController extends Controller
