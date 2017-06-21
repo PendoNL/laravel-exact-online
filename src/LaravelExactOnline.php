@@ -3,7 +3,7 @@
 namespace PendoNL\LaravelExactOnline;
 
 use File;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class LaravelExactOnline
 {
@@ -68,7 +68,7 @@ class LaravelExactOnline
         if(config('laravel-exact-online.exact_multi_user')) {
             $config->save();
         } else {
-            $file = storage_path('exact.api.json')
+            $file = storage_path('exact.api.json');
             File::put($file, json_encode($config));
         }
     }
