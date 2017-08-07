@@ -50,6 +50,37 @@ EXACT_CLIENT_ID=
 EXACT_CLIENT_SECRET=
 ```
 
+The following keys are optional
+
+```
+EXACT_COUNTRY_CODE=
+EXACT_DIVISION=
+```
+
+## Multiuser support
+Out of the box this plugin stores the exact keys inside a JSON file. This means every user uses the same credentials. If you would like to give your users the opportunity to make individual connections you can do so by setting the following parameter inside your .env file:
+
+```
+EXACT_MULTI_USER=true
+```
+
+Sidenote: There's no migration written for this feature yet. Feel free to do so. In the meantime you should add these changes to your user  migration:
+
+```php
+$table->text('exact_accessToken')->nullable();
+$table->text('exact_refreshToken')->nullable();
+$table->text('exact_tokenExpires')->nullable();
+$table->text('exact_authorisationCode')->nullable();
+```
+
+and add these fillables to your user object:
+
+```php
+protected $fillable = [
+    'name', 'email', 'password', 'exact_accessToken', 'exact_refreshToken', 'exact_tokenExpires', 'exact_authorisationCode'
+];
+```
+
 ## How to use connect Laravel & Exact Online
 As said this package provides the route and controller to easily connect your  Exact App with 
 your Laravel project. You may overwrite the routes in you routes/web.php file, I even insist on
