@@ -31,7 +31,7 @@
                 "PendoNL\\LaravelExactOnline\\Providers\\LaravelExactOnlineServiceProvider"
             ],
             "aliases": {
-                "MailTester": "PendoNL\\LaravelExactOnline\\LaravelExactOnlineFacade"
+                "ExactOnline": "PendoNL\\LaravelExactOnline\\LaravelExactOnlineFacade"
             }
         }
     }
