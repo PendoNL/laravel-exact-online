@@ -20,7 +20,7 @@ First add the dev-master version of this package to your composer.json
 "pendonl/laravel-exact-online": "dev-master"
 ```
 
-Then run `composer update` and add the Service Provider to config/app.php
+Then run `composer update` and add the Service Provider to config/app.php (For L5.5 and up Auto-Discovery is enabled)
 
 ```
 ...
