@@ -2,7 +2,7 @@
 
 namespace PendoNL\LaravelExactOnline\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
 
 class LaravelExactOnlineController extends Controller
