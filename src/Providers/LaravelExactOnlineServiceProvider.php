@@ -3,7 +3,6 @@
 namespace PendoNL\LaravelExactOnline\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Auth;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
 
 class LaravelExactOnlineServiceProvider extends ServiceProvider
@@ -35,8 +34,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
     {
         $this->app->alias(LaravelExactOnline::class, 'laravel-exact-online');
 
-        $this->app->singleton('Exact\Connection', function() {
-
+        $this->app->singleton('Exact\Connection', function () {
             $config = LaravelExactOnline::loadConfig();
 
             $connection = new \Picqer\Financials\Exact\Connection();
@@ -44,31 +42,36 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             $connection->setExactClientId(config('laravel-exact-online.exact_client_id'));
             $connection->setExactClientSecret(config('laravel-exact-online.exact_client_secret'));
             $connection->setBaseUrl('https://start.exactonline.' . config('laravel-exact-online.exact_country_code'));
-            if(config('laravel-exact-online.exact_division') !== '') {
+
+            if (config('laravel-exact-online.exact_division') !== '') {
                 $connection->setDivision(config('laravel-exact-online.exact_division'));
             }
 
-            if(isset($config->exact_authorisationCode)) {
+            if (isset($config->exact_authorisationCode)) {
                 $connection->setAuthorizationCode($config->exact_authorisationCode);
             }
-            if(isset($config->exact_accessToken)) {
+
+            if (isset($config->exact_accessToken)) {
                 $connection->setAccessToken(unserialize($config->exact_accessToken));
             }
-            if(isset($config->exact_refreshToken)) {
+
+            if (isset($config->exact_refreshToken)) {
                 $connection->setRefreshToken($config->exact_refreshToken);
             }
-            if(isset($config->exact_tokenExpires)) {
+
+            if (isset($config->exact_tokenExpires)) {
                 $connection->setTokenExpires($config->exact_tokenExpires);
             }
 
             try {
-
-                if(isset($config->exact_authorisationCode)) {
+                if (isset($config->exact_authorisationCode)) {
                     $connection->connect();
                 }
-
-            } catch (\Exception $e)
-            {
+            } catch (\GuzzleHttp\Exception\RequestException $e) {
+                $connection->setAccessToken(null);
+                $connection->setRefreshToken(null);
+                $connection->connect();
+            } catch (\Exception $e) {
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
