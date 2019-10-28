@@ -4,6 +4,7 @@ namespace PendoNL\LaravelExactOnline;
 
 use File;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LaravelExactOnline
 {
@@ -54,12 +55,15 @@ class LaravelExactOnline
         if(config('laravel-exact-online.exact_multi_user')) {
             return Auth::user();
         } else {
-            return (object)json_decode(
-                File::get(
-                    storage_path('exact.api.json')
-                ),
-                true
-            );
+            $config = '{}';
+
+            if (Storage::exists('exact.api.json')) {
+                $config = Storage::get(
+                    'exact.api.json'
+                );
+            }
+
+            return (object) json_decode($config, false);
         }
     }
 
@@ -68,8 +72,7 @@ class LaravelExactOnline
         if(config('laravel-exact-online.exact_multi_user')) {
             $config->save();
         } else {
-            $file = storage_path('exact.api.json');
-            File::put($file, json_encode($config));
+            Storage::put('exact.api.json', json_encode($config));
         }
     }
 
