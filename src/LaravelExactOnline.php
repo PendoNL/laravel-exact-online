@@ -51,7 +51,7 @@ class LaravelExactOnline
 
     }
 
-    public function tokenUpdateCallback (Connection $connection) {
+    public static function tokenUpdateCallback (Connection $connection) {
         $config = self::loadConfig();
 
         $config->exact_accessToken = serialize($connection->getAccessToken());
