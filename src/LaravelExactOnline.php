@@ -5,6 +5,7 @@ namespace PendoNL\LaravelExactOnline;
 use File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Picqer\Financials\Exact\Connection;
 
 class LaravelExactOnline
 {
@@ -48,6 +49,16 @@ class LaravelExactOnline
 
         }
 
+    }
+
+    public static function tokenUpdateCallback (Connection $connection) {
+        $config = self::loadConfig();
+
+        $config->exact_accessToken = serialize($connection->getAccessToken());
+        $config->exact_refreshToken = $connection->getRefreshToken();
+        $config->exact_tokenExpires = $connection->getTokenExpires();
+
+        self::storeConfig($config);
     }
 
     public static function loadConfig()
