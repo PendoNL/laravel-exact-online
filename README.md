@@ -1,3 +1,5 @@
+22/05/2020: We've archived this package as it was originally intended to be used inside a project and scratch our own itch. We haven't touched our updated it since. It's archived for the people who use(d) it. Feel free to fork and re-release this in case you want to actively develop and support this package.
+
 # Laravel Exact Online
 This package is a Laravel wrapper around the Exact Online PHP API by Picqer 
 (https://github.com/picqer/exact-php-client). It provides routes and a controller out of the box to connect
